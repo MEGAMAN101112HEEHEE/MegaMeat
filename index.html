@@ -6,28 +6,146 @@
     <title>MEGA MEET</title>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #121212; color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: #1e1e1e; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 100; }
-        header h1 { color: #00ffcc; font-size: 1.5rem; }
-        #setup-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 20px; padding: 20px; background: #111827; z-index: 50; }
-        .card { background: #1e1e1e; padding: 30px; border-radius: 12px; border: 1px solid #333; width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; text-align: center; }
-        input, select { padding: 12px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: white; font-size: 1rem; outline: none; }
-        input:focus, select:focus { border-color: #00ffcc; }
-        button { padding: 12px; border-radius: 8px; border: none; font-size: 1rem; font-weight: bold; cursor: pointer; }
-        .btn-primary { background: #00ffcc; color: #121212; }
-        .btn-secondary { background: #333; color: white; }
-        .btn-danger { background: #ff4757; color: white; }
-        #room-panel { display: none; flex-direction: column; flex: 1; height: calc(100vh - 60px); background: #121212; position: relative; z-index: 50; }
-        #video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; flex: 1; overflow-y: auto; align-items: center; justify-items: center; }
-        .video-wrapper { position: relative; width: 100%; height: 100%; max-height: 420px; background: #000; border-radius: 12px; overflow: hidden; border: 2px solid #333; display: flex; align-items: center; justify-content: center; }
-        video { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 2; }
-        .avatar-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; z-index: 1; background: #1a1a1a; }
-        .avatar-overlay img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #00ffcc; }
-        .label { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; z-index: 3; }
-        .label img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
-        #controls { background: #1e1e1e; padding: 15px; display: flex; justify-content: center; gap: 10px; border-top: 1px solid #333; flex-wrap: wrap; z-index: 100; }
-        #status-text { color: #aaa; font-size: 0.9rem; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        header {
+            background-color: #1e1e1e;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        header h1 {
+            color: #00ffcc;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        #setup-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        input:focus {
+            border-color: #00ffcc;
+        }
+        button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background-color: #00ffcc;
+            color: #121212;
+        }
+        .btn-primary:hover {
+            background-color: #00d9ad;
+        }
+        .btn-secondary {
+            background-color: #333;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #444;
+        }
+        .btn-danger {
+            background-color: #ff4757;
+            color: white;
+        }
+        #room-panel {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            height: calc(100vh - 60px);
+        }
+        #video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            align-items: center;
+            justify-items: center;
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-height: 450px;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #2a2a2a;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        #controls {
+            background-color: #1e1e1e;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            border-top: 1px solid #333;
+            flex-wrap: wrap;
+        }
+        #status-text {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -38,11 +156,11 @@
 
     <div id="setup-panel">
         <div class="card">
-            <h2>Join Room</h2>
-            <input type="text" id="username-input" placeholder="Your Nickname (e.g. Martin)">
-            <input type="text" id="room-input" placeholder="Room Name (e.g. gaming)">
+            <h2>Start or Join a Call</h2>
+            <p style="color: #aaa; font-size: 0.9rem;">No time limit. Free peer-to-peer connection.</p>
+            <input type="text" id="room-input" placeholder="Enter room name (e.g. sacha-gaming)">
             <button class="btn-primary" onclick="joinRoom(true)">Create Room</button>
-            <button class="btn-secondary" onclick="joinRoom(false)">Join Room</button>
+            <button class="btn-secondary" onclick="joinRoom(false)">Join Existing Room</button>
         </div>
     </div>
 
@@ -51,161 +169,141 @@
         <div id="controls">
             <button class="btn-secondary" id="mic-btn" onclick="toggleMic()">Mute Mic</button>
             <button class="btn-secondary" id="cam-btn" onclick="toggleCam()">Hide Cam</button>
+            <button class="btn-secondary" onclick="shareScreen()">Share Screen</button>
             <button class="btn-danger" onclick="leaveRoom()">Leave</button>
         </div>
     </div>
 
     <script>
-        let peer = null, localStream = null, currentCalls = [], dataConnections = {}, peerProfiles = {};
-        let micEnabled = true, camEnabled = true, myName = 'Player', myAvatar = '';
+        let peer = null;
+        let localStream = null;
+        let currentCalls = [];
+        let micEnabled = true;
+        let camEnabled = true;
 
-        function getDefaultAvatar(name) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 100; canvas.height = 100;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#00ffcc'; ctx.fillRect(0, 0, 100, 100);
-            ctx.fillStyle = '#121212'; ctx.font = 'bold 50px Segoe UI';
-            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText((name || 'M').charAt(0).toUpperCase(), 50, 52);
-            return canvas.toDataURL('image/png');
-        }
-
-        myAvatar = getDefaultAvatar('M');
-
-        document.getElementById('username-input').addEventListener('input', (e) => {
-            myName = e.target.value.trim() || 'Player';
-            myAvatar = getDefaultAvatar(myName);
-        });
+        const videoGrid = document.getElementById('video-grid');
+        const statusText = document.getElementById('status-text');
 
         async function initMedia() {
             try {
                 localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             } catch (err) {
                 localStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
-                camEnabled = false;
             }
-            addVideoCard('local', localStream, myName + ' (You)', myAvatar, true);
+            addVideoStream(localStream, 'You', true);
         }
 
-        function addVideoCard(id, stream, name, avatar, isLocal) {
-            let wrapper = document.getElementById('card-' + id);
-            if (!wrapper) {
-                wrapper = document.createElement('div');
-                wrapper.className = 'video-wrapper';
-                wrapper.id = 'card-' + id;
+        function addVideoStream(stream, labelText, isLocal = false) {
+            const existing = document.getElementById('video-' + stream.id);
+            if (existing) return;
 
-                const overlay = document.createElement('div');
-                overlay.className = 'avatar-overlay';
-                const img = document.createElement('img');
-                img.src = avatar;
-                overlay.appendChild(img);
+            const wrapper = document.createElement('div');
+            wrapper.className = 'video-wrapper';
+            wrapper.id = 'video-' + stream.id;
 
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.autoplay = true;
-                video.playsInline = true;
-                if (isLocal) video.muted = true;
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+            video.playsInline = true;
+            if (isLocal) video.muted = true;
 
-                const label = document.createElement('div');
-                label.className = 'label';
-                const smImg = document.createElement('img');
-                smImg.src = avatar;
-                const span = document.createElement('span');
-                span.textContent = name;
-                label.appendChild(smImg);
-                label.appendChild(span);
+            const label = document.createElement('div');
+            label.className = 'label';
+            label.textContent = labelText;
 
-                wrapper.appendChild(overlay);
-                wrapper.appendChild(video);
-                wrapper.appendChild(label);
-                document.getElementById('video-grid').appendChild(wrapper);
-            }
-        }
-
-        function setupDataConnection(conn, isHost) {
-            dataConnections[conn.peer] = conn;
-            conn.on('open', () => {
-                conn.send({ type: 'profile', name: myName, avatar: myAvatar, camEnabled: camEnabled });
-                if (isHost) {
-                    const otherPeers = Object.keys(dataConnections).filter(id => id !== conn.peer);
-                    conn.send({ type: 'peer-list', peers: otherPeers });
-                }
-            });
-            conn.on('data', (data) => {
-                if (data.type === 'profile') {
-                    peerProfiles[conn.peer] = data;
-                    addVideoCard(conn.peer, null, data.name, data.avatar, false);
-                } else if (data.type === 'peer-list') {
-                    data.peers.forEach(targetId => {
-                        if (!dataConnections[targetId]) connectToPeer(targetId);
-                    });
-                }
-            });
-            conn.on('close', () => {
-                const card = document.getElementById('card-' + conn.peer);
-                if (card) card.remove();
-                delete dataConnections[conn.peer];
-            });
-        }
-
-        function connectToPeer(targetId) {
-            const conn = peer.connect(targetId);
-            setupDataConnection(conn, false);
-            const call = peer.call(targetId, localStream);
-            currentCalls.push(call);
-            call.on('stream', (stream) => {
-                const prof = peerProfiles[targetId] || { name: 'Friend', avatar: getDefaultAvatar('F') };
-                addVideoCard(targetId, stream, prof.name, prof.avatar, false);
-            });
+            wrapper.appendChild(video);
+            wrapper.appendChild(label);
+            videoGrid.appendChild(wrapper);
         }
 
         async function joinRoom(isHost) {
             const roomName = document.getElementById('room-input').value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
-            if (!roomName) { alert('Enter a room name'); return; }
-            myName = document.getElementById('username-input').value.trim() || 'Player';
-            myAvatar = getDefaultAvatar(myName);
+            if (!roomName) {
+                alert('Please enter a valid room name.');
+                return;
+            }
 
             document.getElementById('setup-panel').style.display = 'none';
             document.getElementById('room-panel').style.display = 'flex';
-            document.getElementById('status-text').textContent = 'Connecting...';
+            statusText.textContent = 'Connecting...';
 
             await initMedia();
-            const hostId = 'megameet-room-' + roomName;
-            peer = isHost ? new Peer(hostId) : new Peer();
 
-            peer.on('open', () => {
-                if (isHost) {
-                    document.getElementById('status-text').textContent = 'Hosted: ' + roomName;
-                } else {
-                    document.getElementById('status-text').textContent = 'Joined: ' + roomName;
-                    connectToPeer(hostId);
-                }
-            });
-            peer.on('connection', (conn) => setupDataConnection(conn, isHost));
-            peer.on('call', (call) => {
-                call.answer(localStream);
-                currentCalls.push(call);
-                call.on('stream', (stream) => {
-                    const prof = peerProfiles[call.peer] || { name: 'Friend', avatar: getDefaultAvatar('F') };
-                    addVideoCard(call.peer, stream, prof.name, prof.avatar, false);
+            const hostId = 'megameet-room-' + roomName;
+
+            if (isHost) {
+                peer = new Peer(hostId);
+                peer.on('open', (id) => {
+                    statusText.textContent = 'Room Hosted: ' + roomName;
                 });
-            });
+                peer.on('error', (err) => {
+                    if (err.type === 'unavailable-id') {
+                        alert('This room already exists! Click "Join Existing Room" instead.');
+                        location.reload();
+                    }
+                });
+                peer.on('call', (call) => {
+                    call.answer(localStream);
+                    currentCalls.push(call);
+                    call.on('stream', (remoteStream) => {
+                        addVideoStream(remoteStream, 'Friend');
+                    });
+                });
+            } else {
+                peer = new Peer();
+                peer.on('open', () => {
+                    statusText.textContent = 'Connected to: ' + roomName;
+                    const call = peer.call(hostId, localStream);
+                    currentCalls.push(call);
+                    call.on('stream', (remoteStream) => {
+                        addVideoStream(remoteStream, 'Host');
+                    });
+                });
+                peer.on('error', (err) => {
+                    alert('Could not find this room. Make sure the host created it first!');
+                    location.reload();
+                });
+            }
         }
 
         function toggleMic() {
             if (!localStream) return;
             micEnabled = !micEnabled;
-            localStream.getAudioTracks().forEach(t => t.enabled = micEnabled);
+            localStream.getAudioTracks().forEach(track => track.enabled = micEnabled);
             document.getElementById('mic-btn').textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
         }
 
         function toggleCam() {
             if (!localStream) return;
             camEnabled = !camEnabled;
-            localStream.getVideoTracks().forEach(t => t.enabled = camEnabled);
+            localStream.getVideoTracks().forEach(track => track.enabled = camEnabled);
             document.getElementById('cam-btn').textContent = camEnabled ? 'Hide Cam' : 'Show Cam';
-            const vid = document.querySelector('#card-local video');
-            if (vid) vid.style.opacity = camEnabled ? '1' : '0';
+        }
+
+        async function shareScreen() {
+            try {
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const screenTrack = screenStream.getVideoTracks()[0];
+
+                currentCalls.forEach(call => {
+                    const sender = call.peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                    if (sender) sender.replaceTrack(screenTrack);
+                });
+
+                const localVideo = document.querySelector('#video-' + localStream.id + ' video');
+                if (localVideo) localVideo.srcObject = screenStream;
+
+                screenTrack.onended = () => {
+                    const camTrack = localStream.getVideoTracks()[0];
+                    currentCalls.forEach(call => {
+                        const sender = call.peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                        if (sender && camTrack) sender.replaceTrack(camTrack);
+                    });
+                    if (localVideo) localVideo.srcObject = localStream;
+                };
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         function leaveRoom() {
